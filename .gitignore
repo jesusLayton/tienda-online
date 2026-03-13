@@ -1,3 +1,7 @@
+# Claude AI
+.claude/
+CLAUDE.md
+
 # Dependencies
 node_modules/
 .pnp
