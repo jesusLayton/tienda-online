@@ -38,7 +38,8 @@ module.exports = (sequelize) => {
         allowNull: false,
         get() {
           const val = this.getDataValue('shipping_address');
-          return val ? JSON.parse(val) : null;
+          if (!val) return null;
+          try { return JSON.parse(val); } catch { return null; }
         },
         set(val) {
           this.setDataValue('shipping_address', JSON.stringify(val));

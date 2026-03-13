@@ -77,10 +77,10 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
-  // Default 500 error
+  // Default 500 error — nunca exponer detalles internos
   res.status(500).json({
     success: false,
-    error: env.NODE_ENV === 'production' ? 'Error interno del servidor' : err.message,
+    error: 'Error interno del servidor',
     code: 'INTERNAL_SERVER_ERROR',
   });
 };

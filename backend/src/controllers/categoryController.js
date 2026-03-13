@@ -45,7 +45,8 @@ const getCategories = async (req, res) => {
 // GET /categories/:id
 const getCategory = async (req, res, next) => {
   const { id } = req.params;
-  const where = isNaN(id) ? { slug: id } : { id: parseInt(id) };
+  const numId = parseInt(id);
+  const where = (!isNaN(numId) && numId > 0) ? { id: numId } : { slug: id };
 
   const category = await Category.findOne({
     where,

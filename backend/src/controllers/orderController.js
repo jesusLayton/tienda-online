@@ -148,8 +148,8 @@ const createOrder = async (req, res, next) => {
       product.stock -= item.quantity;
       await product.save({ transaction: t });
 
-      const subtotal = parseFloat(product.price) * item.quantity;
-      total += subtotal;
+      const subtotal = Math.round(parseFloat(product.price) * item.quantity * 100) / 100;
+      total = Math.round((total + subtotal) * 100) / 100;
 
       orderItemsData.push({
         product_id: product.id,

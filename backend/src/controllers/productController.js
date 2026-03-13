@@ -63,9 +63,10 @@ const getProducts = async (req, res) => {
   }
 
   if (search) {
+    const safeSearch = search.replace(/[%_\\]/g, '\\$&');
     where[Op.or] = [
-      { name: { [Op.like]: `%${search}%` } },
-      { description: { [Op.like]: `%${search}%` } },
+      { name: { [Op.like]: `%${safeSearch}%` } },
+      { description: { [Op.like]: `%${safeSearch}%` } },
     ];
   }
 
@@ -103,7 +104,8 @@ const getProducts = async (req, res) => {
 // GET /products/:id
 const getProduct = async (req, res, next) => {
   const { id } = req.params;
-  const where = isNaN(id) ? { slug: id } : { id: parseInt(id) };
+  const numId = parseInt(id);
+  const where = (!isNaN(numId) && numId > 0) ? { id: numId } : { slug: id };
 
   const product = await Product.findOne({
     where,

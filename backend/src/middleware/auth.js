@@ -4,17 +4,23 @@ const env = require('../config/env');
 
 const authenticate = async (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization;
+    // Leer token desde HttpOnly cookie (preferido) o Authorization header (compatibilidad)
+    let token = req.cookies?.auth_token;
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!token) {
+      const authHeader = req.headers.authorization;
+      if (authHeader?.startsWith('Bearer ')) {
+        token = authHeader.split(' ')[1];
+      }
+    }
+
+    if (!token) {
       return res.status(401).json({
         success: false,
         error: 'Token de autenticación requerido',
         code: 'NO_TOKEN',
       });
     }
-
-    const token = authHeader.split(' ')[1];
 
     let decoded;
     try {

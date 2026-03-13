@@ -13,9 +13,10 @@ const getUsers = async (req, res) => {
   const where = {};
 
   if (search) {
+    const safeSearch = search.replace(/[%_\\]/g, '\\$&');
     where[Op.or] = [
-      { name: { [Op.like]: `%${search}%` } },
-      { email: { [Op.like]: `%${search}%` } },
+      { name: { [Op.like]: `%${safeSearch}%` } },
+      { email: { [Op.like]: `%${safeSearch}%` } },
     ];
   }
 
@@ -103,7 +104,7 @@ const updateUser = async (req, res, next) => {
   }
 
   // Only admin can change roles
-  if (role && req.user.role === 'admin') {
+  if (role && req.user.role === 'admin' && ['user', 'admin'].includes(role)) {
     user.role = role;
   }
 

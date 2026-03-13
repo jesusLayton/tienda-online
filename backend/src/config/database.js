@@ -5,7 +5,7 @@ const config = {
   development: {
     dialect: 'sqlite',
     storage: path.join(__dirname, '../../database.sqlite'),
-    logging: console.log,
+    logging: false,
     define: {
       timestamps: true,
       underscored: true,

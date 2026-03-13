@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { login as loginService, register as registerService, getMe } from '../services/authService';
+import { login as loginService, register as registerService, logout as logoutService, getMe } from '../services/authService';
 
 const AuthContext = createContext(null);
 
@@ -8,35 +8,30 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      getMe()
-        .then((res) => setUser(res.data.data))
-        .catch(() => localStorage.removeItem('token'))
-        .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
-    }
+    // El token está en HttpOnly cookie — simplemente intentamos obtener el perfil
+    getMe()
+      .then((res) => setUser(res.data.data))
+      .catch(() => setUser(null))
+      .finally(() => setLoading(false));
   }, []);
 
   const login = async (credentials) => {
     const res = await loginService(credentials);
-    const { token, user: userData } = res.data.data;
-    localStorage.setItem('token', token);
+    const { user: userData } = res.data.data;
+    // El token se guarda automáticamente en HttpOnly cookie por el servidor
     setUser(userData);
     return userData;
   };
 
   const register = async (data) => {
     const res = await registerService(data);
-    const { token, user: userData } = res.data.data;
-    localStorage.setItem('token', token);
+    const { user: userData } = res.data.data;
     setUser(userData);
     return userData;
   };
 
-  const logout = () => {
-    localStorage.removeItem('token');
+  const logout = async () => {
+    await logoutService().catch(() => {});
     setUser(null);
   };
 
