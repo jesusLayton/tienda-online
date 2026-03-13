@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd C:/Users/Usuario/Documents/automatizaciones/cluade/crud && npm create vite@latest frontend -- --template react 2>&1)",
+      "Bash(cd C:/Users/Usuario/Documents/automatizaciones/cluade/crud/frontend && npm install 2>&1)",
+      "Bash(cd C:/Users/Usuario/Documents/automatizaciones/cluade/crud/frontend && npm install react-router-dom axios 2>&1)",
+      "Bash(cd C:/Users/Usuario/Documents/automatizaciones/cluade/crud/frontend && npm run build 2>&1)",
+      "Bash(cd /c/Users/Usuario/Documents/automatizaciones/cluade/crud/backend && node -e \"\n// Quick static check — no DB needed\nconst env = require\\('./src/config/env'\\);\nconsole.log\\('env.js OK, PORT:', env.PORT\\);\nconst app = require\\('./src/app'\\);\nconsole.log\\('app.js OK'\\);\n\" 2>&1 | head -30)",
+      "Bash(cd /c/Users/Usuario/Documents/automatizaciones/cluade/crud/backend && npm install 2>&1 | tail -10)",
+      "Bash(cd /c/Users/Usuario/Documents/automatizaciones/cluade/crud/backend && node -e \"\nconst env = require\\('./src/config/env'\\);\nconsole.log\\('env.js OK, PORT:', env.PORT\\);\nconst { errorHandler, createError } = require\\('./src/middleware/errorHandler'\\);\nconsole.log\\('errorHandler.js OK'\\);\nconst adminOnly = require\\('./src/middleware/adminOnly'\\);\nconsole.log\\('adminOnly.js OK'\\);\n// Skip models \\(need DB\\), just check routes load\nconsole.log\\('All non-DB modules load correctly'\\);\n\" 2>&1)",
+      "Bash(cd /c/Users/Usuario/Documents/automatizaciones/cluade/crud/backend && node -e \"\n// Test that all route files can be parsed \\(they import controllers which import models\\)\n// We simulate the models not connecting by checking syntax only\nconst { execSync } = require\\('child_process'\\);\nconst files = [\n  'src/routes/auth.js',\n  'src/routes/products.js', \n  'src/routes/categories.js',\n  'src/routes/orders.js',\n  'src/routes/users.js',\n  'src/controllers/authController.js',\n  'src/controllers/productController.js',\n  'src/controllers/categoryController.js',\n  'src/controllers/orderController.js',\n  'src/controllers/userController.js',\n  'migrations/20240101000001-create-users.js',\n  'migrations/20240101000005-create-order-items.js',\n  'seed/index.js',\n];\nfiles.forEach\\(f => {\n  try {\n    execSync\\('node --check ' + f, { cwd: process.cwd\\(\\) }\\);\n    console.log\\('SYNTAX OK:', f\\);\n  } catch\\(e\\) {\n    console.error\\('SYNTAX ERROR:', f, e.stderr.toString\\(\\)\\);\n  }\n}\\);\n\" 2>&1)",
+      "Bash(psql --version 2>/dev/null || echo \"psql not in PATH\")",
+      "Read(//c/Program Files/PostgreSQL//**)",
+      "Read(//c/Program Files \\(x86\\)/**)",
+      "Bash(\"/c/Program Files/PostgreSQL/17/bin/psql\" --version)",
+      "Bash(cd \"/c/Users/Usuario/Documents/automatizaciones/cluade/crud/backend\" && npm uninstall pg pg-hstore && npm install sqlite3)",
+      "Bash(cd \"/c/Users/Usuario/Documents/automatizaciones/cluade/crud/backend\" && npm run migrate 2>&1)",
+      "Bash(cd \"/c/Users/Usuario/Documents/automatizaciones/cluade/crud/backend\" && npm run seed 2>&1)",
+      "Bash(curl -s -X POST http://localhost:3001/api/v1/auth/login \\\\\n  -H \"Content-Type: application/json\" \\\\\n  -d '{\"email\":\"admin@tienda.com\",\"password\":\"Admin1234\"}' 2>&1)",
+      "Bash(TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0aWVuZGEuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzczNDM1OTQyLCJleHAiOjE3NzQwNDA3NDJ9._5mkKiXhxnceFvLpV84tfxUiU0D1Vg2-odAgG20iyYY\"\ncurl -s http://localhost:3001/api/v1/products \\\\\n  -H \"Authorization: Bearer $TOKEN\" 2>&1 | head -80)",
+      "Bash(gh auth:*)",
+      "Bash(git --version 2>&1 && ls \"/c/Users/Usuario/Documents/automatizaciones/cluade/crud/\")"
+    ]
+  }
+}
